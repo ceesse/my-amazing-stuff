@@ -1,0 +1,24 @@
+﻿<Window x:Class="Directories.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Directories"
+        xmlns:vm="clr-namespace:Directories.ViewModels"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525">
+	<Grid>
+        <TreeView x:Name="treeView" HorizontalAlignment="Left" Height="300" Margin="10,10,0,0" VerticalAlignment="Top" Width="162">
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate DataType="{x:Type vm:DirectoryVM}" ItemsSource="{Binding Path=Directories}" >
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox IsChecked="{Binding Path=Selected}" Checked="OnTreeViewItemChecked" Unchecked="OnTreeViewItemUnchecked"/>
+                        <TextBlock Text="{Binding Path=Name}" />
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+                
+            </TreeView.ItemTemplate>
+        </TreeView>
+
+    </Grid>
+</Window>
