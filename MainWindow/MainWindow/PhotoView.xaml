@@ -18,23 +18,27 @@
     <Grid Margin="10">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="25*" />
+            <ColumnDefinition Width="5"/>
             <ColumnDefinition Width="75*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="10*" />
+            <RowDefinition Height="5" />
             <RowDefinition Height="85*" />
             <RowDefinition Height="5*" />
         </Grid.RowDefinitions>
-    <ListView Grid.ColumnSpan="3">
+        <ListView Grid.ColumnSpan="3">
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>
                 </GridView>
             </ListView.View>
         </ListView>
-        <ListBox Grid.Row="1" HorizontalAlignment="Left" Width="Auto" MaxWidth="200" RenderTransformOrigin="1.662,0.479" ItemsSource="{Binding SelectedDirectories}" >
+        <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" Grid.ColumnSpan="4" Background="DarkRed"  />
+        <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Grid.RowSpan="3" Background="DarkBlue" />
+        <ListBox Grid.Row="2" HorizontalAlignment="Left" Width="Auto" ItemsSource="{Binding SelectedDirectories}" >
         </ListBox>
-        <UniformGrid Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <UniformGrid Grid.Row="2" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left"/>
     </Grid>
 
 </Window>
