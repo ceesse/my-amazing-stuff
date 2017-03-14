@@ -10,33 +10,32 @@
         <local:ViewModel />
     </Window.DataContext>
     <Window.Resources>
-        <Style x:Key="HeaderStyle" TargetType="{x:Type GridViewColumnHeader}">
-            <Setter Property="HorizontalAlignment" Value="Left" />
-            <Setter Property="Width" Value="1000" />
-        </Style>
-    </Window.Resources>
+        <local:PathToImageConverter x:Key="PathToImageConverter" />
+     </Window.Resources>
     <Grid Margin="10">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="25*" />
-            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="3"/>
             <ColumnDefinition Width="75*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="10*" />
-            <RowDefinition Height="5" />
+            <RowDefinition Height="10*" MinHeight="50" />
+            <RowDefinition Height="3" />
             <RowDefinition Height="85*" />
             <RowDefinition Height="5*" />
         </Grid.RowDefinitions>
-        <ListView Grid.ColumnSpan="3">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn/>
-                </GridView>
-            </ListView.View>
-        </ListView>
+        <ListBox Grid.ColumnSpan="3" ItemsSource="{Binding Path=Files, Converter={StaticResource PathToImageConverter}}" MinHeight="50">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel Orientation="Horizontal" >
+                        <Image Source="{Binding}"></Image>
+                    </VirtualizingStackPanel>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+         </ListBox>
         <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" Grid.ColumnSpan="4" Background="DarkRed"  />
-        <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Grid.RowSpan="3" Background="DarkBlue" />
-        <ListBox Grid.Row="2" HorizontalAlignment="Left" Width="Auto" ItemsSource="{Binding SelectedDirectories}" >
+        <GridSplitter Grid.Column="1" Grid.Row="2" HorizontalAlignment="Stretch" Background="DarkBlue" />
+        <ListBox Grid.Row="2" HorizontalAlignment="Left" Width="Auto" ItemsSource="{Binding SelectedDirectories}" SelectedItem="{Binding SelectedDirectory}" >
         </ListBox>
         <UniformGrid Grid.Row="2" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left"/>
     </Grid>
