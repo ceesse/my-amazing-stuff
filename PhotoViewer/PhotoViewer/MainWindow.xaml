@@ -1,0 +1,64 @@
+﻿<Window x:Class="PhotoViewer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PhotoViewer"
+        xmlns:prop="clr-namespace:PhotoViewer.Properties"
+        mc:Ignorable="d"
+        Title="Photos" 
+        Top="{Binding MainTop, Source={x:Static prop:Settings.Default}, Mode=TwoWay}"
+        Left="{Binding MainLeft, Source={x:Static prop:Settings.Default}, Mode=TwoWay}"
+        Height="500.996"
+        Width="830.837"
+        Closed="MainWindowClosed">
+
+    <Window.DataContext>
+        <local:ViewModel />
+    </Window.DataContext>
+    <Window.Resources>
+        <local:PathToImageConverter x:Key="PathToImageConverter" />
+    </Window.Resources>
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Properties" Executed="OnPropertiesExecuted" CanExecute="OnPropertiesCanExecute" />
+    </Window.CommandBindings>
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="{Binding VertSplitterPos, Source={x:Static prop:Settings.Default}, Mode=TwoWay}" />
+            <ColumnDefinition Width="3"/>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="{Binding HorSplitterPos, Source={x:Static prop:Settings.Default}, Mode=TwoWay}" MinHeight="50" />
+            <RowDefinition Height="3" />
+            <RowDefinition Height="95*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <ListBox Grid.ColumnSpan="3" Name="lbImages" MinHeight="50" ItemsSource="{Binding Path=Files}">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Image Source="{Binding Converter={StaticResource PathToImageConverter}}" Width="120" Height="120"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" Grid.ColumnSpan="4" Background="DarkRed"  />
+        <GridSplitter Grid.Column="1" Grid.Row="2" HorizontalAlignment="Stretch" Background="DarkBlue" />
+        <ListBox Grid.Row="2" HorizontalAlignment="Left" Width="Auto" ItemsSource="{Binding SelectedDirectories}" SelectedItem="{Binding SelectedDirectory}" >
+        </ListBox>
+        <UniformGrid Grid.Row="2" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Background="LightGray" Orientation="Horizontal" FlowDirection="RightToLeft" >
+            <Button Margin="5" >Cancel</Button>
+        </StackPanel>
+        <Menu VerticalAlignment="Top" >
+            <MenuItem Header="Actions" >
+                <MenuItem Header="Settings..." Command="ApplicationCommands.Properties" />
+            </MenuItem>
+        </Menu>
+    </Grid>
+
+</Window>
