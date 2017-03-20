@@ -24,5 +24,15 @@ namespace Directories
         {
             InitializeComponent();
         }
+
+        private void OnCancelButtonClicked(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void OnOKButtonClicked(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
     }
 }

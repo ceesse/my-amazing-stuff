@@ -19,8 +19,15 @@
          </HierarchicalDataTemplate>
     </Window.Resources>
     <Grid>
-        <TreeView x:Name="treeView" HorizontalAlignment="Left" Height="300" Margin="10,10,0,0" VerticalAlignment="Top" Width="562" ItemsSource="{Binding Directories}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="25" />
+        </Grid.RowDefinitions>
+        <TreeView x:Name="treeView" HorizontalAlignment="Left" Height="300" Margin="10,10,0,0" VerticalAlignment="Top" Width="Auto" ItemsSource="{Binding Directories}">
         </TreeView>
-
+        <StackPanel Grid.Row="1" Orientation="Horizontal" FlowDirection="RightToLeft">
+            <Button Width="50" Margin="5, 2" HorizontalContentAlignment="Center" IsCancel="True" Click="OnCancelButtonClicked">_Cancel</Button>
+            <Button Width="50" Margin="5, 2" HorizontalContentAlignment="Center" IsDefault="True" Click="OnOKButtonClicked">_OK</Button>
+        </StackPanel>
 	</Grid>
 </Window>
