@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
 
+
 namespace Directories.ViewModels
 {
     public class DirectoryVM : INotifyPropertyChanged
@@ -89,24 +90,26 @@ namespace Directories.ViewModels
         }
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public DirectoryVM Initialize()
+        public DirectoryVM Initialize(int level)
 		{
-			Directories = new ObservableCollection<DirectoryVM>();
-            try
+            if (--level >= 0) ;
             {
-			    var directories = System.IO.Directory.GetDirectories(FullName);
-			    foreach (var d in directories)
-			    {
-                    var di = new DirectoryInfo(d);
-                    if (di.Attributes.HasFlag(FileAttributes.System))
-                        continue;
-                    Directories.Add(new DirectoryVM() { _parent = this, FullName = d, Name = di.Name }.Initialize());
-			    }
+                Directories = new ObservableCollection<DirectoryVM>();
+                try
+                {
+                    var directories = System.IO.Directory.GetDirectories(FullName);
+                    foreach (var d in directories)
+                    {
+                        var di = new DirectoryInfo(d);
+                        if (di.Attributes.HasFlag(FileAttributes.System))
+                            continue;
+                        Directories.Add(new DirectoryVM() { _parent = this, FullName = d, Name = di.Name }.Initialize(level));
+                    }
+                }
+                catch (Exception)
+                {
+                }
             }
-            catch (Exception)
-            {
-            }
-
 			return this;
 		}
 	}

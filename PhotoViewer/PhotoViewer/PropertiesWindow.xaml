@@ -22,9 +22,9 @@
         <TextBox Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="5" 
                  Text="{Binding Path=Filter, Mode=TwoWay}" />
         <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" FlowDirection="RightToLeft" Background="lightBlue" >
-            <Button Content="Cancel" Width="50" VerticalContentAlignment="Center" Margin="5, 2" IsDefault="True" IsCancel="True"/>
+            <Button Content="Cancel" Width="50" VerticalContentAlignment="Center" Margin="5, 2" IsCancel="True"/>
             <Button Content="Apply" Width="50" VerticalContentAlignment="Center" Margin="5, 2"/>
-            <Button Content="Ok" Width="50" VerticalContentAlignment="Center" Margin="5, 2" IsEnabled="{Binding Mode=OneWay}"/>
+            <Button Content="Ok" Width="50" VerticalContentAlignment="Center" Margin="5, 2" IsDefault="True" />
         </StackPanel>
     </Grid>
 </Window>

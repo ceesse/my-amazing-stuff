@@ -14,7 +14,8 @@ namespace Directories.ViewModels
 	{
 		public ViewModel()
 		{
-			Initialize();
+            
+			//Initialize();
 		}
 
         private ObservableCollection<DirectoryVM> _directories; 
@@ -35,7 +36,7 @@ namespace Directories.ViewModels
                 var dri = new DriveInfo(dr);
                 if (dri.DriveType.HasFlag(DriveType.Network))
                     continue;
-                Directories.Add(new DirectoryVM() { FullName = dr, Name = dri.Name }.Initialize());
+                Directories.Add(new DirectoryVM() { FullName = dr, Name = dri.Name }.Initialize(2));
             }
         }
         protected void OnPropertyChanged([CallerMemberName]string propertyName = null)
