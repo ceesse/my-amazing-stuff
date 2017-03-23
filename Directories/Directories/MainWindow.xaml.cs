@@ -28,10 +28,11 @@ namespace Directories
             InitializeComponent();
         }
 
-        private void Populate(string header, string tag, TreeView root, TreeViewItem child, bool hasSubdirs)
+        private void Populate(string header, string tag, TreeView root, TreeViewItem child, bool hasSubdirs, bool? isChecked)
         {
             TreeViewItem item = new TreeViewItem();
-            item.Tag = new TreeItemTag() { Owner = item, IsChecked = true, FullName = tag };
+            bool c = SelectedDirectories.Directories.Contains(tag);
+            item.Tag = new TreeItemTag() { Owner = item, IsChecked = c, FullName = tag };
             item.Header = header;
             item.Expanded += new RoutedEventHandler(ItemExpanded);
             if (hasSubdirs)
@@ -63,7 +64,7 @@ namespace Directories
                     try
                     {
                         var sd = Directory.GetDirectories(di.FullName);
-                        Populate(di.Name, di.FullName, null, item, sd.Count() > 0);
+                        Populate(di.Name, di.FullName, null, item, sd.Count() > 0, ((TreeItemTag)item.Tag).IsChecked);
                     }
                     catch (Exception)
                     {
@@ -79,17 +80,46 @@ namespace Directories
 
         private void OnOKButtonClicked(object sender, RoutedEventArgs e)
         {
+            SelectedDirectories.Clear();
+
+            foreach (var it in foldersTree.Items)
+            {
+                SaveSelectedFolders((TreeViewItem)it);
+            }
+            SelectedDirectories.Save("seldirs.xml");
             Close();
+        }
+
+        private void SaveSelectedFolders(TreeViewItem it)
+        {
+            TreeItemTag itag = (TreeItemTag)it.Tag;
+            if (itag == null || (itag.IsChecked.HasValue && itag.IsChecked == false))
+                return;
+            if (itag.IsChecked == true)
+            {
+                SelectedDirectories.SaveCheckedDirectories(itag.FullName);
+            }
+            if (itag.IsChecked == null)
+            {
+                foreach (var i in it.Items)
+                {
+                    TreeItemTag tag = (TreeItemTag)((TreeViewItem)i).Tag;
+                    if (tag == null)
+                        continue;
+                    SaveSelectedFolders((TreeViewItem)i);
+                }
+            }
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            SelectedDirectories.Load("seldirs.xml");
             foreach (DriveInfo driv in DriveInfo.GetDrives())
             {
                 if (driv.IsReady)
                 {
                     var sd = Directory.GetDirectories(driv.Name);
-                    Populate(driv.Name, driv.Name, foldersTree, null, sd.Count() > 0);
+                    Populate(driv.Name, driv.Name, foldersTree, null, sd.Count() > 0, false);
                 }
             }
         }
